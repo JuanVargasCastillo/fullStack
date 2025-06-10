@@ -3,25 +3,30 @@ package com.ventas.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
-@Table
+@Table(name = "venta")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Venta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idventa;
 
-    private LocalDate fecha;
-    private Double total;
+    @Column(name = "id_cliente")
+    private Integer idCliente;
 
-    @ManyToOne
-    private Cliente cliente;
+    @Column(name = "id_vendedor")
+    private Integer idVendedor;
 
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)
-    private List<DetalleVenta> detalles;
+    @Column(name = "fecha_venta")
+    @Temporal(TemporalType.DATE)
+    private Date fechaVenta;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal total;
 }

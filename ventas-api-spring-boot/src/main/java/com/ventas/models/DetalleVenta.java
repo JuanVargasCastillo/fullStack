@@ -3,23 +3,27 @@ package com.ventas.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 
 @Entity
-@Table
+@Table(name = "detalleventa")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class DetalleVenta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idDetalle;
 
-    @ManyToOne
-    private Venta venta;
+    @Column(name = "idventa")
+    private Long idVenta;
 
-    @ManyToOne
-    private Producto producto;
+    @Column(name = "id_producto")
+    private Integer idProducto;
 
     private Integer cantidad;
-    private Double precioUnitario;
+
+    @Column(name = "precio_unitario", precision = 10, scale = 2)
+    private BigDecimal precioUnitario;
 }
