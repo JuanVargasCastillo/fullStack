@@ -2,6 +2,19 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AuthApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.gateway.AuthApiSpringBootApplication",
+            "projectName": "com.personas-personas-api-spring-boot"
+        },
+        {
+            "type": "java",
+            "name": "GestionApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.gestion.GestionApiSpringBootApplication"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-GestionApiSpringBootApplication<personas-api-spring-boot>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
