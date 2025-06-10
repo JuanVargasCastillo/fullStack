@@ -13,31 +13,28 @@ import java.util.List;
 public class VentaController {
 
     @Autowired
-    private VentaService service;
+    private VentaService ventaService;
 
     @PostMapping
-    public ResponseEntity<VentaDTO> crear(@RequestBody VentaDTO dto) {
-        return ResponseEntity.ok(service.crear(dto));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<VentaDTO>> listar() {
-        return ResponseEntity.ok(service.listar());
+    public ResponseEntity<Venta> crearVenta(@RequestBody VentaRequestDTO dto) {
+        return ResponseEntity.ok(ventaService.crearVentaDesdeDTO(dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VentaDTO> obtener(@PathVariable Integer id) {
-        return ResponseEntity.ok(service.obtenerPorId(id));
+    public ResponseEntity<Venta> obtenerVenta(@PathVariable Long id) {
+        return ventaService.obtenerVenta(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<VentaDTO> actualizar(@PathVariable Integer id, @RequestBody VentaDTO dto) {
-        return ResponseEntity.ok(service.actualizar(id, dto));
+    @GetMapping
+    public List<Venta> listarVentas() {
+        return ventaService.listarVentas();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
-        service.eliminar(id);
+    public ResponseEntity<Void> eliminarVenta(@PathVariable Long id) {
+        ventaService.eliminarVenta(id);
         return ResponseEntity.noContent().build();
     }
 }

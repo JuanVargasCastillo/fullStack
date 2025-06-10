@@ -1,73 +1,52 @@
 package com.ventas.services;
 
-import com.Ventas.models.Venta;
-import com.Ventas.dto.VentaDTO;
-import com.Ventas.repository.VentaRepository;
+import com.ventas.models;
+import com.ventas.dto.VentaDTO;
+import com.ventas.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class VentaService {
 
-    @Autowired
-    private VentaRepository VentaRepository;
+    @Autowired private VentaRepository ventaRepo;
+    @Autowired private ClienteRepository clienteRepo;
+    @Autowired private ProductoRepository productoRepo;
 
-    private VentaDTO toDTO(Venta Venta) {
-        return new VentaDTO(
-                Venta.getId(),
-                Venta.getNombre(),
-                Venta.getDescripcion(),
-                Venta.getPrecioUnitario(),
-                Venta.getCategoria(),
-                Venta.getActivo()
-        );
+    public Venta crearVentaDesdeDTO(VentaRequestDTO dto) {
+        Venta venta = new Venta();
+        venta.setFecha(LocalDate.now());
+        venta.setCliente(clienteRepo.findById(dto.getClienteId()).orElseThrow());
+
+        List<DetalleVenta> detalles = dto.getDetalles().stream().map(detalleDto -> {
+            DetalleVenta d = new DetalleVenta();
+            d.setProducto(productoRepo.findById(detalleDto.getProductoId()).orElseThrow());
+            d.setCantidad(detalleDto.getCantidad());
+            d.setPrecioUnitario(detalleDto.getPrecioUnitario());
+            d.setVenta(venta);
+            return d;
+        }).collect(Collectors.toList());
+
+        venta.setDetalles(detalles);
+        venta.setTotal(detalles.stream().mapToDouble(d -> d.getCantidad() * d.getPrecioUnitario()).sum());
+
+        return ventaRepo.save(venta);
     }
 
-    private Venta toEntity(VentaDTO dto) {
-        Venta Venta = new Venta();
-        Venta.setId(dto.getId()); // importante para actualizar
-        Venta.setNombre(dto.getNombre());
-        Venta.setDescripcion(dto.getDescripcion());
-        Venta.setPrecioUnitario(dto.getPrecioUnitario());
-        Venta.setCategoria(dto.getCategoria());
-        Venta.setActivo(dto.getActivo());
-        return Venta;
+    public Optional<Venta> obtenerVenta(Long id) {
+        return ventaRepo.findById(id);
     }
 
-    public VentaDTO crear(VentaDTO dto) {
-        Venta Venta = toEntity(dto);
-        return toDTO(VentaRepository.save(Venta));
+    public List<Venta> listarVentas() {
+        return ventaRepo.findAll();
     }
 
-    public List<VentaDTO> listar() {
-        return VentaRepository.findAll().stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    public VentaDTO obtenerPorId(Integer id) {
-        Venta Venta = VentaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Venta no encontrado"));
-        return toDTO(Venta);
-    }
-
-    public VentaDTO actualizar(Integer id, VentaDTO dto) {
-        Venta existente = VentaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Venta no encontrado"));
-
-        existente.setNombre(dto.getNombre());
-        existente.setDescripcion(dto.getDescripcion());
-        existente.setPrecioUnitario(dto.getPrecioUnitario());
-        existente.setCategoria(dto.getCategoria());
-        existente.setActivo(dto.getActivo());
-
-        return toDTO(VentaRepository.save(existente));
-    }
-
-    public void eliminar(Integer id) {
-        VentaRepository.deleteById(id);
+    public void eliminarVenta(Long id) {
+        ventaRepo.deleteById(id);
     }
 }
