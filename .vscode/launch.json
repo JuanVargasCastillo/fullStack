@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ReportesApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.reportes.ReportesApiSpringBootApplication",
+            "projectName": "com.reportes-reportes-api-spring-boot"
+        },
+        {
+            "type": "java",
             "name": "AuthApiSpringBootApplication",
             "request": "launch",
             "mainClass": "com.gateway.AuthApiSpringBootApplication",
