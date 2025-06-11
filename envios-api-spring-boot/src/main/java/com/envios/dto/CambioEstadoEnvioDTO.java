@@ -1,8 +1,9 @@
 package com.envios.dto;
 
 import lombok.*;
-import java.time.LocalDate;
-import java.util.List;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class CambioEstadoEnvioDTO {
     private String nuevoEstado;

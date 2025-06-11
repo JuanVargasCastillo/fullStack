@@ -1,9 +1,8 @@
 package com.envios.services;
 
 import com.envios.dto.EnvioDTO;
-import com.envios.model.Envio;
+import com.envios.models.Envio;
 import com.envios.repository.EnvioRepository;
-import com.envios.service.EnvioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
