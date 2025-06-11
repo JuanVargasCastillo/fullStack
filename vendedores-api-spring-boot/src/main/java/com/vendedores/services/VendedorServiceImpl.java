@@ -75,4 +75,13 @@ public class VendedorServiceImpl implements VendedorService {
         vendedor.setTelefono(dto.getTelefono());
         return vendedor;
     }
+        @Override
+        public List<VendedorDTO> listarTodos() {
+        return vendedorRepository.findAll()
+            .stream()
+            .map(this::toDTO)
+            .collect(Collectors.toList());
+    }
+
+
 }

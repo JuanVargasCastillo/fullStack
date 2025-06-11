@@ -2,6 +2,29 @@
     "configurations": [
         {
             "type": "java",
+
+            "name": "ClientesApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.clientes.ClientesApiSpringBootApplication"
+        },
+        {
+            "type": "java",
+            "name": "EnviosApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.envios.EnviosApiSpringBootApplication"
+        },
+        {
+            "type": "java",
+            "name": "VendedoresApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.vendedores.VendedoresApiSpringBootApplication",
+            "projectName": "com.vendedores-vendedores-api-spring-boot"
+        },
+        {
+            "type": "java",
+            "name": "VentaApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.ventas.VentaApiSpringBootApplication",
             "name": "SoportesApiSpringBootApplication",
             "request": "launch",
             "mainClass": "com.soportes.SoportesApiSpringBootApplication",
