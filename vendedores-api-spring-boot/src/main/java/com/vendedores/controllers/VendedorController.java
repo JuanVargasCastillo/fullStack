@@ -45,10 +45,4 @@ public class VendedorController {
         return ResponseEntity.ok(vendedorService.listarTodos());
     }
 
-    // Eliminar vendedor por ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarVendedor(@PathVariable Integer id) {
-        boolean eliminado = vendedorService.eliminarVendedor(id);
-        return eliminado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-    }
 }

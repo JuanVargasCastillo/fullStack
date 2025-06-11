@@ -1,7 +1,7 @@
 package com.ventas.controllers;
 
-import com.Ventas.dto.VentaDTO;
-import com.Ventas.services.VentaService;
+import com.ventas.dto.*;
+import com.ventas.services.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

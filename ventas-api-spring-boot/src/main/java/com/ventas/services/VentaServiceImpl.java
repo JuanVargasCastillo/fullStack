@@ -1,14 +1,11 @@
 package com.ventas.services;
 
 import com.ventas.dto.*;
-import com.ventas.model.*;
+import com.ventas.models.*;
 import com.ventas.repository.*;
-import com.ventas.service.VentaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,23 +23,23 @@ public class VentaServiceImpl implements VentaService {
 
     @Override
     public VentaDTO crearVenta(VentaDTO dto) {
-        Venta venta = new Venta(null, dto.getIdCliente(), dto.getIdVendedor(), dto.getFechaVenta(), dto.getTotal());
-        venta = ventaRepository.save(venta);
+    Venta ventaInicial = new Venta(null, dto.getIdCliente(), dto.getIdVendedor(), dto.getFechaVenta(), dto.getTotal());
+    Venta ventaGuardada = ventaRepository.save(ventaInicial);
 
-        List<DetalleVenta> detalles = dto.getDetalles().stream().map(d -> {
-            DetalleVenta detalle = new DetalleVenta();
-            detalle.setIdVenta(venta.getIdventa());
-            detalle.setIdProducto(d.getIdProducto());
-            detalle.setCantidad(d.getCantidad());
-            detalle.setPrecioUnitario(d.getPrecioUnitario());
-            return detalle;
-        }).collect(Collectors.toList());
+    List<DetalleVenta> detalles = dto.getDetalles().stream().map(d -> {
+        DetalleVenta detalle = new DetalleVenta();
+        detalle.setIdVenta(ventaGuardada.getIdventa());
+        detalle.setIdProducto(d.getIdProducto());
+        detalle.setCantidad(d.getCantidad());
+        detalle.setPrecioUnitario(d.getPrecioUnitario());
+        return detalle;
+    }).collect(Collectors.toList());
 
-        detalleVentaRepository.saveAll(detalles);
+    detalleVentaRepository.saveAll(detalles);
 
-        dto.setIdCliente(venta.getIdCliente());  // opcional para retornar info actualizada
-        return dto;
-    }
+    return dto;
+}
+
 
     @Override
     public VentaDTO obtenerVenta(Long id) {

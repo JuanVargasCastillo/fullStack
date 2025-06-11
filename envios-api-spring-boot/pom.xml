@@ -8,10 +8,10 @@
 		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.personas</groupId>
-	<artifactId>personas-api-spring-boot</artifactId>
+	<groupId>com.envios</groupId>
+	<artifactId>envios-api-spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>personas-api-spring-boot</name>
+	<name>envios-api-spring-boot</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
