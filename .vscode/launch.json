@@ -2,7 +2,12 @@
     "configurations": [
         {
             "type": "java",
-
+            "name": "ProductosApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.productos.ProductosApiSpringBootApplication"
+        },
+        {
+            "type": "java",
             "name": "ClientesApiSpringBootApplication",
             "request": "launch",
             "mainClass": "com.clientes.ClientesApiSpringBootApplication"
@@ -22,9 +27,6 @@
         },
         {
             "type": "java",
-            "name": "VentaApiSpringBootApplication",
-            "request": "launch",
-            "mainClass": "com.ventas.VentaApiSpringBootApplication",
             "name": "SoportesApiSpringBootApplication",
             "request": "launch",
             "mainClass": "com.soportes.SoportesApiSpringBootApplication",

@@ -1,4 +1,4 @@
-package com.gateway.redireccion.gestion;
+package com.gateway.redireccion.productos;
 
 import org.springframework.http.HttpHeaders;
 
@@ -21,9 +21,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/proxy/usuarios")
+@RequestMapping("/api/proxy/productos")
 @RequiredArgsConstructor
-public class GestionProxyController {
+public class ProductosProxyController {
 
     private final RestTemplate restTemplate;
     private final JwtService jwtService;
@@ -33,8 +33,8 @@ public class GestionProxyController {
                                             @RequestBody(required = false) String body,
                                             @RequestHeader HttpHeaders headers) {
 
-        String originalPath = request.getRequestURI().replace("/api/proxy/usuarios", "");
-        String targetUrl = "http://localhost:8082/api/usuarios" + originalPath;
+        String originalPath = request.getRequestURI().replace("/api/proxy/productos", "");
+        String targetUrl = "http://localhost:8087/api/productos" + originalPath;
         HttpMethod method = HttpMethod.valueOf(request.getMethod());
 
         // Validar DELETE solo si no es admin
@@ -52,28 +52,10 @@ public class GestionProxyController {
             if (!"admin".equalsIgnoreCase(rol)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"error\": \"Solo admin puede eliminar usuarios\"}");
+                        .body("{\"error\": \"Solo admin puede eliminar productos\"}");
             }
         }
 
-        // Validar PUT solo si no es admin
-        if (method == HttpMethod.PUT) {
-            String authHeader = headers.getFirst(HttpHeaders.AUTHORIZATION);
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"error\": \"Token no presente o inválido\"}");
-            }
-
-            String token = authHeader.replace("Bearer ", "");
-            String rol = jwtService.extractClaim(token, claims -> claims.get("rol", String.class));
-
-            if (!"admin".equalsIgnoreCase(rol)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"error\": \"Solo admin puede actualizar usuarios\"}");
-            }
-        }
 
         // Clonar headers válidos
         HttpHeaders cleanHeaders = new HttpHeaders();

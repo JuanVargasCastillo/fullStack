@@ -8,10 +8,10 @@
 		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.personas</groupId>
-	<artifactId>personas-api-spring-boot</artifactId>
+	<groupId>com.productos</groupId>
+	<artifactId>productos-api-spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>personas-api-spring-boot</name>
+	<name>productos-api-spring-boot</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -39,6 +39,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- HATEOAS -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
 
 		<dependency>
