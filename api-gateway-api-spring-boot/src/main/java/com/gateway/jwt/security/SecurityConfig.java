@@ -13,7 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpMethod; // Asegúrate de importar esto arriba
 
 import static com.gateway.jwt.security.PublicRoutes.*; //importa las rutas publicas de jwt
-import static com.gateway.redireccion.gestion.GestionPublicRoutes.*; //importa las rutas publicas de API Personas
+import static com.gateway.redireccion.gestion.GestionPublicRoutes.*; //importa las rutas publicas de API Gateway
+import static com.gateway.redireccion.productos.ProductosPublicRoutes.*; //importa las rutas publicas de API Productos
+import static com.gateway.redireccion.clientes.ClientesPublicRoutes.*; //importa las rutas publicas de API Clientes
 
 @Configuration
 @RequiredArgsConstructor
@@ -32,6 +34,12 @@ public class SecurityConfig {
 
                 // URL públicas API Gestion
                 .requestMatchers(HttpMethod.GET, GESTION_PUBLIC_GET).permitAll()   // lista pública api GESTION GET
+
+                // URL públicas API Productos
+                .requestMatchers(HttpMethod.GET, PRODUCTOS_PUBLIC_GET).permitAll()   // lista pública api Productos GET
+
+                // URL públicas API Clientes
+                .requestMatchers(HttpMethod.GET, CLIENTES_PUBLIC_GET).permitAll()   // lista pública api Clientes GET
                 
                 // Otras URL Token obligatorio
                 .anyRequest().authenticated()

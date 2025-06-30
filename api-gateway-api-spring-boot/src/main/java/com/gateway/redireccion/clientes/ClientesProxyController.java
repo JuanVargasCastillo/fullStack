@@ -1,4 +1,4 @@
-package com.gateway.redireccion.gestion;
+package com.gateway.redireccion.clientes;
 
 import org.springframework.http.HttpHeaders;
 
@@ -21,9 +21,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/proxy/usuarios")
+@RequestMapping("/api/proxy/clientes")
 @RequiredArgsConstructor
-public class GestionProxyController {
+public class ClientesProxyController {
 
     private final RestTemplate restTemplate;
     private final JwtService jwtService;
@@ -33,8 +33,8 @@ public class GestionProxyController {
                                             @RequestBody(required = false) String body,
                                             @RequestHeader HttpHeaders headers) {
 
-        String originalPath = request.getRequestURI().replace("/api/proxy/usuarios", "");
-        String targetUrl = "http://localhost:8082/api/usuarios" + originalPath;
+        String originalPath = request.getRequestURI().replace("/api/proxy/clientes", "");
+        String targetUrl = "http://localhost:8086/api/clientes" + originalPath;
         HttpMethod method = HttpMethod.valueOf(request.getMethod());
 
         // Validar DELETE solo si no es admin
