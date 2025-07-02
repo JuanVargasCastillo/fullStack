@@ -20,7 +20,7 @@ import static com.gateway.redireccion.clientes.ClientesPublicRoutes.*; // Client
 import static com.gateway.redireccion.envios.EnviosPublicRoutes.*; // Envios ✅ NUEVO
 import static com.gateway.redireccion.inventarios.InventariosPublicRoutes.*;
 import static com.gateway.redireccion.reportes.ReportesPublicRoutes.*;
-import static com.gateway.redireccion.soporte.SoportesPublicRoutes.*;
+import static com.gateway.redireccion.soporte.SoportePublicRoutes.*;
 import static com.gateway.redireccion.vendedores.VendedoresPublicRoutes.*;
 import static com.gateway.redireccion.ventas.VentasPublicRoutes.*;
 
