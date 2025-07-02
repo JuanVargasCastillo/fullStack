@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/inventario")
+@RequestMapping("/api/inventarios")
 public class InventarioController {
 
     @Autowired

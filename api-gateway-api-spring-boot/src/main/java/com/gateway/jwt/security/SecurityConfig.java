@@ -10,12 +10,20 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import org.springframework.http.HttpMethod; // Asegúrate de importar esto arriba
+import org.springframework.http.HttpMethod;
 
-import static com.gateway.jwt.security.PublicRoutes.*; //importa las rutas publicas de jwt
-import static com.gateway.redireccion.gestion.GestionPublicRoutes.*; //importa las rutas publicas de API Gateway
-import static com.gateway.redireccion.productos.ProductosPublicRoutes.*; //importa las rutas publicas de API Productos
-import static com.gateway.redireccion.clientes.ClientesPublicRoutes.*; //importa las rutas publicas de API Clientes
+// Importa las rutas públicas de cada microservicio
+import static com.gateway.jwt.security.PublicRoutes.*; // JWT
+import static com.gateway.redireccion.gestion.GestionPublicRoutes.*; // Gestión
+import static com.gateway.redireccion.productos.ProductosPublicRoutes.*; // Productos
+import static com.gateway.redireccion.clientes.ClientesPublicRoutes.*; // Clientes
+import static com.gateway.redireccion.envios.EnviosPublicRoutes.*; // Envios ✅ NUEVO
+import static com.gateway.redireccion.inventarios.InventariosPublicRoutes.*;
+import static com.gateway.redireccion.reportes.ReportesPublicRoutes.*;
+import static com.gateway.redireccion.soporte.SoportesPublicRoutes.*;
+import static com.gateway.redireccion.vendedores.VendedoresPublicRoutes.*;
+import static com.gateway.redireccion.ventas.VentasPublicRoutes.*;
+
 
 @Configuration
 @RequiredArgsConstructor
@@ -28,27 +36,39 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
 
-                // URL públicas JWT
-                .requestMatchers(HttpMethod.POST, PUBLIC_POST).permitAll() // rutas publicas POST de PublicRoutes de JWT
-                .requestMatchers(HttpMethod.GET, PUBLIC_GET).permitAll() // rutas publicas GET de PublicRoutes de JWT
+                // Rutas públicas del microservicio de autenticación (JWT)
+                .requestMatchers(HttpMethod.POST, PUBLIC_POST).permitAll()
+                .requestMatchers(HttpMethod.GET, PUBLIC_GET).permitAll()
 
-                // URL públicas API Gestion
-                .requestMatchers(HttpMethod.GET, GESTION_PUBLIC_GET).permitAll()   // lista pública api GESTION GET
+                // Rutas públicas de Gestión
+                .requestMatchers(HttpMethod.GET, GESTION_PUBLIC_GET).permitAll()
 
-                // URL públicas API Productos
-                .requestMatchers(HttpMethod.GET, PRODUCTOS_PUBLIC_GET).permitAll()   // lista pública api Productos GET
+                // Rutas públicas de Productos
+                .requestMatchers(HttpMethod.GET, PRODUCTOS_PUBLIC_GET).permitAll()
 
-                // URL públicas API Clientes
-                .requestMatchers(HttpMethod.GET, CLIENTES_PUBLIC_GET).permitAll()   // lista pública api Clientes GET
+                // Rutas públicas de Clientes
+                .requestMatchers(HttpMethod.GET, CLIENTES_PUBLIC_GET).permitAll()
+
+                // ✅ NUEVO: Rutas públicas de Envios
+                .requestMatchers(HttpMethod.GET, ENVIOS_PUBLIC_GET).permitAll()
                 
-                // Otras URL Token obligatorio
-                .anyRequest().authenticated()
+                .requestMatchers(HttpMethod.GET, INVENTARIOS_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
 
+                .requestMatchers(HttpMethod.GET, REPORTES_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
+                .requestMatchers(HttpMethod.GET, SOPORTE_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
+                .requestMatchers(HttpMethod.GET, VENDEDORES_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
+                .requestMatchers(HttpMethod.GET, VENTAS_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
+
+                // Todo lo demás requiere autenticación
+                .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
