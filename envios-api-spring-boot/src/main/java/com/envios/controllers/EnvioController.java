@@ -27,4 +27,9 @@ public class EnvioController {
     public ResponseEntity<?> actualizarEstado(@PathVariable Long id, @RequestBody CambioEstadoEnvioDTO dto) {
         return ResponseEntity.ok(envioService.actualizarEstadoEnvio(id, dto.getNuevoEstado()));
     }
+    @GetMapping
+    public ResponseEntity<String> mensajeDeEstado() {
+        return ResponseEntity.ok("API de envíos operativa");
+}
+
 }
