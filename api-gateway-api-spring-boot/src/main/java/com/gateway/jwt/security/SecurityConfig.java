@@ -18,6 +18,12 @@ import static com.gateway.redireccion.gestion.GestionPublicRoutes.*; // Gestión
 import static com.gateway.redireccion.productos.ProductosPublicRoutes.*; // Productos
 import static com.gateway.redireccion.clientes.ClientesPublicRoutes.*; // Clientes
 import static com.gateway.redireccion.envios.EnviosPublicRoutes.*; // Envios ✅ NUEVO
+import static com.gateway.redireccion.inventarios.InventariosPublicRoutes.*;
+import static com.gateway.redireccion.reportes.ReportesPublicRoutes.*;
+import static com.gateway.redireccion.soporte.SoportesPublicRoutes.*;
+import static com.gateway.redireccion.vendedores.VendedoresPublicRoutes.*;
+import static com.gateway.redireccion.ventas.VentasPublicRoutes.*;
+
 
 @Configuration
 @RequiredArgsConstructor
@@ -45,6 +51,17 @@ public class SecurityConfig {
 
                 // ✅ NUEVO: Rutas públicas de Envios
                 .requestMatchers(HttpMethod.GET, ENVIOS_PUBLIC_GET).permitAll()
+                
+                .requestMatchers(HttpMethod.GET, INVENTARIOS_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
+                .requestMatchers(HttpMethod.GET, REPORTES_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
+                .requestMatchers(HttpMethod.GET, SOPORTE_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
+                .requestMatchers(HttpMethod.GET, VENDEDORES_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
+                .requestMatchers(HttpMethod.GET, VENTAS_PUBLIC_GET).permitAll() // rutas públicas GET de Inventarios
+
 
                 // Todo lo demás requiere autenticación
                 .anyRequest().authenticated()
