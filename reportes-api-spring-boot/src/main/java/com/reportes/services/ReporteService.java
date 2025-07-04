@@ -15,17 +15,14 @@ public class ReporteService {
     @Autowired
     private ReporteRepository reporteRepository;
 
+    // Mapeo simplificado acorde a la tabla del profe
     private ReporteDTO toDTO(Reporte r) {
         return new ReporteDTO(
-            r.getId(),
+            r.getIdReporte(),
             r.getTipoReporte(),
             r.getFechaGeneracion(),
             r.getDescripcion(),
-            r.getJsonDatos(),
-            r.getActivo(),
-            r.getCategoria(),
-            r.getNombre(),
-            r.getPrecioUnitario()
+            r.getJsonDatos()
         );
     }
 

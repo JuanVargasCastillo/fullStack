@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/soporte")
+@RequestMapping("/api/soporte")
 public class SoporteController {
 
     @Autowired
