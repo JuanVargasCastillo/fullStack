@@ -19,19 +19,19 @@ public class VendedorServiceImpl implements VendedorService {
     private VendedorRepository vendedorRepository;
 
     @Autowired
-    private SucursalAsignadaRepository sucursalAsignadaRepository; // ✅ Agregado
+    private SucursalAsignadaRepository sucursalAsignadaRepository;
 
     @Override
     public VendedorDTO crearVendedor(VendedorDTO dto) {
-        Vendedor vendedor = toEntity(dto);
+        Vendedor vendedor = convertirDTOaEntidad(dto);
         Vendedor saved = vendedorRepository.save(vendedor);
-        return toDTO(saved);
+        return convertirEntidadADTO(saved);
     }
 
     @Override
     public VendedorDTO obtenerVendedorPorId(Integer id) {
         Optional<Vendedor> optional = vendedorRepository.findById(id);
-        return optional.map(this::toDTO).orElse(null);
+        return optional.map(this::convertirEntidadADTO).orElse(null);
     }
 
     @Override
@@ -45,14 +45,13 @@ public class VendedorServiceImpl implements VendedorService {
             vendedor.setDireccion(dto.getDireccion());
             vendedor.setTelefono(dto.getTelefono());
 
-            // ✅ Actualizar también sucursal si viene en el DTO
             if (dto.getSucursalAsignada() != null && dto.getSucursalAsignada().getId() != null) {
                 sucursalAsignadaRepository.findById(dto.getSucursalAsignada().getId())
                         .ifPresent(vendedor::setSucursalAsignada);
             }
 
             Vendedor actualizado = vendedorRepository.save(vendedor);
-            return toDTO(actualizado);
+            return convertirEntidadADTO(actualizado);
         }
         return null;
     }
@@ -61,7 +60,7 @@ public class VendedorServiceImpl implements VendedorService {
     public List<VendedorDTO> listarPorSucursal(Integer idSucursal) {
         return vendedorRepository.findBySucursalAsignadaId(idSucursal)
                 .stream()
-                .map(this::toDTO)
+                .map(this::convertirEntidadADTO)
                 .collect(Collectors.toList());
     }
 
@@ -69,25 +68,12 @@ public class VendedorServiceImpl implements VendedorService {
     public List<VendedorDTO> listarTodos() {
         return vendedorRepository.findAll()
             .stream()
-            .map(this::toDTO)
+            .map(this::convertirEntidadADTO)
             .collect(Collectors.toList());
     }
 
-    // ✅ Mapear entidad a DTO
-    private VendedorDTO toDTO(Vendedor vendedor) {
-        VendedorDTO dto = new VendedorDTO();
-        dto.setIdVendedor(vendedor.getIdVendedor());
-        dto.setIdUsuario(vendedor.getIdUsuario());
-        dto.setNombreCompleto(vendedor.getNombreCompleto());
-        dto.setRut(vendedor.getRut());
-        dto.setDireccion(vendedor.getDireccion());
-        dto.setTelefono(vendedor.getTelefono());
-        dto.setSucursalAsignada(vendedor.getSucursalAsignada()); // ✅ Mostrar sucursal
-        return dto;
-    }
-
-    // ✅ Mapear DTO a entidad y asociar sucursal correctamente
-    private Vendedor toEntity(VendedorDTO dto) {
+    @Override
+    public Vendedor convertirDTOaEntidad(VendedorDTO dto) {
         Vendedor vendedor = new Vendedor();
         vendedor.setIdVendedor(dto.getIdVendedor());
         vendedor.setIdUsuario(dto.getIdUsuario());
@@ -104,4 +90,15 @@ public class VendedorServiceImpl implements VendedorService {
         return vendedor;
     }
 
+    private VendedorDTO convertirEntidadADTO(Vendedor vendedor) {
+        VendedorDTO dto = new VendedorDTO();
+        dto.setIdVendedor(vendedor.getIdVendedor());
+        dto.setIdUsuario(vendedor.getIdUsuario());
+        dto.setNombreCompleto(vendedor.getNombreCompleto());
+        dto.setRut(vendedor.getRut());
+        dto.setDireccion(vendedor.getDireccion());
+        dto.setTelefono(vendedor.getTelefono());
+        dto.setSucursalAsignada(vendedor.getSucursalAsignada());
+        return dto;
+    }
 }
