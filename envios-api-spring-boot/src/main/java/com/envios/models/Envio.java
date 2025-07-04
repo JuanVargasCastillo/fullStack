@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "envio")
+@Table(name = "envios")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

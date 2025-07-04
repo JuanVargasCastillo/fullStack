@@ -103,6 +103,12 @@
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
+
+		<dependency>
+    		<groupId>io.springfox</groupId>
+    		<artifactId>springfox-boot-starter</artifactId>
+    		<version>3.0.0</version> <!-- Reemplaza con la última versión disponible -->
+		</dependency>
 	</dependencies>
 
 	<build>

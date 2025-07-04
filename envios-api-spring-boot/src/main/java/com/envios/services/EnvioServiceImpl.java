@@ -3,11 +3,12 @@ package com.envios.services;
 import com.envios.dto.EnvioDTO;
 import com.envios.models.Envio;
 import com.envios.repository.EnvioRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 
 @Service
 public class EnvioServiceImpl implements EnvioService {
@@ -54,5 +55,21 @@ public class EnvioServiceImpl implements EnvioService {
         dto.setDireccionEnvio(envio.getDireccionEnvio());
         return dto;
     }
+
+        @Override
+        public List<EnvioDTO> listarTodos() {
+        List<Envio> envios = envioRepository.findAll();
+        List<EnvioDTO> dtoList = new ArrayList<>();
+
+    for (Envio e : envios) {
+        EnvioDTO dto = new EnvioDTO();
+        dto.setIdVenta(e.getIdVenta());
+        dto.setDireccionEnvio(e.getDireccionEnvio());
+        dtoList.add(dto);
+    }
+
+    return dtoList;
+    }
+
 }
 
