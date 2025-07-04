@@ -43,4 +43,12 @@ public class ReporteService {
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
+    public List<Reporte> obtenerTodos() {
+        return reporteRepository.findAll();
+    }
+
+    public Reporte obtenerPorId(Integer id) {
+        return reporteRepository.findById(id).orElseThrow();
+    }
+
 }
