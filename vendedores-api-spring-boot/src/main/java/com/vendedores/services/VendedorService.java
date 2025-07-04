@@ -1,11 +1,12 @@
 package com.vendedores.services;
 
 import com.vendedores.dto.VendedorDTO;
+import com.vendedores.models.Vendedor;
 
 import java.util.List;
 
 public interface VendedorService {
-    
+
     VendedorDTO crearVendedor(VendedorDTO dto);
 
     VendedorDTO obtenerVendedorPorId(Integer id);
@@ -16,4 +17,5 @@ public interface VendedorService {
 
     List<VendedorDTO> listarTodos();
 
+    Vendedor convertirDTOaEntidad(VendedorDTO dto); // ✅ método necesario para HATEOAS
 }
