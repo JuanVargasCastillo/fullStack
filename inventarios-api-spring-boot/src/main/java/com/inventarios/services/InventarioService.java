@@ -6,6 +6,7 @@ import com.inventarios.repository.InventarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +34,15 @@ public class InventarioService {
         nuevo.setUbicacionBodega(dto.getUbicacionBodega());
 
         return inventarioRepository.save(nuevo);
+    }
+
+    // Método para HATEOAS: obtener inventario por ID
+    public Inventario obtenerPorId(Long idInventario) {
+        return inventarioRepository.findById(idInventario).orElse(null);
+    }
+
+    // Método para HATEOAS: obtener todos los inventarios
+    public List<Inventario> obtenerTodos() {
+        return inventarioRepository.findAll();
     }
 }
