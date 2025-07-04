@@ -40,4 +40,14 @@ public class SoporteService {
             return false;
         }
     }
+
+    // ✅ Método para HATEOAS: obtener un ticket por ID
+    public Ticket obtenerTicketPorId(Integer id) {
+        return ticketRepository.findById(id).orElse(null);
+    }
+
+    // ✅ Método para HATEOAS: obtener todos los tickets
+    public List<Ticket> obtenerTodos() {
+        return ticketRepository.findAll();
+    }
 }
