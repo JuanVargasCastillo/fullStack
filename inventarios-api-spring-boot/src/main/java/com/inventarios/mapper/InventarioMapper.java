@@ -3,13 +3,16 @@ package com.inventarios.mapper;
 import com.inventarios.controllers.InventarioController;
 import com.inventarios.dto.InventarioHateoasDTO;
 import com.inventarios.models.Inventario;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class InventarioMapper {
+
+    private static final String API_GATEWAY_PREFIX = "http://localhost:8888/api/proxy";
 
     public InventarioHateoasDTO toHateoasDTO(Inventario inventario) {
         InventarioHateoasDTO dto = new InventarioHateoasDTO();
@@ -19,21 +22,30 @@ public class InventarioMapper {
         dto.setStockDisponible(inventario.getStockDisponible());
         dto.setUbicacionBodega(inventario.getUbicacionBodega());
 
-        // Enlace al recurso actual
-        dto.add(linkTo(methodOn(InventarioController.class)
+        // Crear los links base usando WebMvcLinkBuilder
+        Link selfLink = linkTo(methodOn(InventarioController.class)
                 .obtenerInventarioHateoas(inventario.getIdProducto()))
-                .withSelfRel());
+                .withSelfRel();
 
-        // Enlace para ajustar stock
-        dto.add(linkTo(methodOn(InventarioController.class)
+        Link ajustarLink = linkTo(methodOn(InventarioController.class)
                 .ajustarInventario(null))
-                .withRel("ajustar"));
+                .withRel("ajustar");
 
-        // Enlace para registrar nuevo movimiento
-        dto.add(linkTo(methodOn(InventarioController.class)
+        Link nuevoLink = linkTo(methodOn(InventarioController.class)
                 .registrarMovimiento(null))
-                .withRel("nuevo"));
+                .withRel("nuevo");
+
+        // Reemplazar el host/puerto base por el del API Gateway
+        dto.add(selfLink.withHref(API_GATEWAY_PREFIX + extractPath(selfLink.getHref())));
+        dto.add(ajustarLink.withHref(API_GATEWAY_PREFIX + extractPath(ajustarLink.getHref())));
+        dto.add(nuevoLink.withHref(API_GATEWAY_PREFIX + extractPath(nuevoLink.getHref())));
 
         return dto;
+    }
+
+    // Función auxiliar para extraer el path a partir del href completo (por ejemplo, /api/inventarios/...)
+    private String extractPath(String href) {
+        int index = href.indexOf("/api/");
+        return index != -1 ? href.substring(index) : href;
     }
 }
