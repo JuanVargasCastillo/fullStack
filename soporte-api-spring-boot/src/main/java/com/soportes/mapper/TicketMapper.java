@@ -1,12 +1,9 @@
 package com.soportes.mapper;
 
-import com.soportes.controllers.SoporteController;
 import com.soportes.models.Ticket;
 import com.soportes.dto.TicketHateoasDTO;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class TicketMapper {
@@ -22,14 +19,13 @@ public class TicketMapper {
         dto.setFechaCreacion(ticket.getFechaCreacion());
         dto.setFechaResolucion(ticket.getFechaResolucion());
 
-        // Enlace a sí mismo (ver el ticket actual)
-        dto.add(linkTo(methodOn(SoporteController.class).obtenerTicketHateoas(ticket.getId())).withSelfRel());
+        // Base del API Gateway
+        String baseUrl = "http://localhost:8888/api/proxy/soporte";
 
-        // Enlace para ver todos los tickets de ese cliente
-        dto.add(linkTo(methodOn(SoporteController.class).obtenerTicketsPorCliente(ticket.getIdUsuario())).withRel("todos"));
-
-        // Enlace para actualizar estado
-        dto.add(linkTo(methodOn(SoporteController.class).actualizarEstado(ticket.getId(), null)).withRel("actualizar"));
+        // Enlaces HATEOAS usando manualmente la URL del Gateway
+        dto.add(Link.of(baseUrl + "/hateoas/tickets/" + ticket.getId()).withSelfRel());
+        dto.add(Link.of(baseUrl + "/tickets/cliente/" + ticket.getIdUsuario()).withRel("todos"));
+        dto.add(Link.of(baseUrl + "/tickets/" + ticket.getId() + "/estado").withRel("actualizar"));
 
         return dto;
     }
