@@ -34,7 +34,7 @@ public class ReportesProxyController {
                                             @RequestHeader HttpHeaders headers) {
 
         String originalPath = request.getRequestURI().replace("/api/proxy/reportes", "");
-        String targetUrl = "http://localhost:8086/api/reportes" + originalPath;
+        String targetUrl = "http://localhost:8088/api/reportes" + originalPath;
         HttpMethod method = HttpMethod.valueOf(request.getMethod());
 
         // Validar DELETE solo si no es admin

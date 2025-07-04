@@ -1,7 +1,9 @@
 package com.vendedores.services;
 
 import com.vendedores.dto.VendedorDTO;
+import com.vendedores.models.SucursalAsignada;
 import com.vendedores.models.Vendedor;
+import com.vendedores.repository.SucursalAsignadaRepository;
 import com.vendedores.repository.VendedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class VendedorServiceImpl implements VendedorService {
 
     @Autowired
     private VendedorRepository vendedorRepository;
+
+    @Autowired
+    private SucursalAsignadaRepository sucursalAsignadaRepository; // ✅ Agregado
 
     @Override
     public VendedorDTO crearVendedor(VendedorDTO dto) {
@@ -39,6 +44,13 @@ public class VendedorServiceImpl implements VendedorService {
             vendedor.setRut(dto.getRut());
             vendedor.setDireccion(dto.getDireccion());
             vendedor.setTelefono(dto.getTelefono());
+
+            // ✅ Actualizar también sucursal si viene en el DTO
+            if (dto.getSucursalAsignada() != null && dto.getSucursalAsignada().getId() != null) {
+                sucursalAsignadaRepository.findById(dto.getSucursalAsignada().getId())
+                        .ifPresent(vendedor::setSucursalAsignada);
+            }
+
             Vendedor actualizado = vendedorRepository.save(vendedor);
             return toDTO(actualizado);
         }
@@ -53,7 +65,15 @@ public class VendedorServiceImpl implements VendedorService {
                 .collect(Collectors.toList());
     }
 
-    // Métodos auxiliares para mapear entre entidad y DTO
+    @Override
+    public List<VendedorDTO> listarTodos() {
+        return vendedorRepository.findAll()
+            .stream()
+            .map(this::toDTO)
+            .collect(Collectors.toList());
+    }
+
+    // ✅ Mapear entidad a DTO
     private VendedorDTO toDTO(Vendedor vendedor) {
         VendedorDTO dto = new VendedorDTO();
         dto.setIdVendedor(vendedor.getIdVendedor());
@@ -62,9 +82,11 @@ public class VendedorServiceImpl implements VendedorService {
         dto.setRut(vendedor.getRut());
         dto.setDireccion(vendedor.getDireccion());
         dto.setTelefono(vendedor.getTelefono());
+        dto.setSucursalAsignada(vendedor.getSucursalAsignada()); // ✅ Mostrar sucursal
         return dto;
     }
 
+    // ✅ Mapear DTO a entidad y asociar sucursal correctamente
     private Vendedor toEntity(VendedorDTO dto) {
         Vendedor vendedor = new Vendedor();
         vendedor.setIdVendedor(dto.getIdVendedor());
@@ -73,15 +95,13 @@ public class VendedorServiceImpl implements VendedorService {
         vendedor.setRut(dto.getRut());
         vendedor.setDireccion(dto.getDireccion());
         vendedor.setTelefono(dto.getTelefono());
+
+        if (dto.getSucursalAsignada() != null && dto.getSucursalAsignada().getId() != null) {
+            sucursalAsignadaRepository.findById(dto.getSucursalAsignada().getId())
+                    .ifPresent(vendedor::setSucursalAsignada);
+        }
+
         return vendedor;
     }
-        @Override
-        public List<VendedorDTO> listarTodos() {
-        return vendedorRepository.findAll()
-            .stream()
-            .map(this::toDTO)
-            .collect(Collectors.toList());
-    }
-
 
 }

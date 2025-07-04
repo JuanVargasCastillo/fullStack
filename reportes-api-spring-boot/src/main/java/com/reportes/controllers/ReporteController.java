@@ -28,4 +28,5 @@ public class ReporteController {
     public List<ReporteDTO> getInventarioCritico() {
         return reporteService.obtenerInventarioCritico();
     }
+    
 }

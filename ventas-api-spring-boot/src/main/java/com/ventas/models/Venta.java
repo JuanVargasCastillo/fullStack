@@ -12,10 +12,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "venta")
+@Table(name = "ventas")  // plural para que coincida con la tabla
 public class Venta {
 
     @Id
+    @Column(name = "id_venta")  // coincide con la columna PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idventa;
 
@@ -29,6 +30,6 @@ public class Venta {
     @Temporal(TemporalType.DATE)
     private Date fechaVenta;
 
-    @Column(precision = 10, scale = 2)
+    @Column(name = "total", precision = 10, scale = 2)
     private BigDecimal total;
 }

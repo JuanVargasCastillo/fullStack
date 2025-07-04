@@ -10,13 +10,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReporteDTO {
-    private Integer id;
+    private Integer idReporte;
     private String tipoReporte;
     private LocalDate fechaGeneracion;
     private String descripcion;
     private String jsonDatos;
-    private Boolean activo;
-    private String categoria;
-    private String nombre;
-    private Double precioUnitario;
 }
