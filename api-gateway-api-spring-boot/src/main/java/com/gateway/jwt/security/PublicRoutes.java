@@ -13,5 +13,6 @@ public class PublicRoutes {
         "/api/auth/login",
         // puedes agregar otras si es necesario
     };
-
+    
+    
 }

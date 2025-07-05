@@ -21,7 +21,8 @@ import static com.gateway.redireccion.envios.EnviosPublicRoutes.*; // Envios ✅
 import static com.gateway.redireccion.inventarios.InventariosPublicRoutes.*;
 import static com.gateway.redireccion.soporte.SoportePublicRoutes.*;
 import static com.gateway.redireccion.vendedores.VendedoresPublicRoutes.*;
-import static com.gateway.redireccion.ventas.VentasPublicRoutes.*;
+import static com.gateway.redireccion.ventas.VentasPublicRoutes.VENTAS_PUBLIC_GET;
+
 
 
 @Configuration
@@ -57,8 +58,7 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.GET, VENDEDORES_PUBLIC_GET).permitAll() 
 
-                .requestMatchers(HttpMethod.GET, VENTAS_PUBLIC_GET).permitAll() 
-
+                .requestMatchers(HttpMethod.GET, VENTAS_PUBLIC_GET).permitAll()
 
                 // Todo lo demás requiere autenticación
                 .anyRequest().authenticated()

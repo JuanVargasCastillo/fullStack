@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "InventariosApplication",
+            "request": "launch",
+            "mainClass": "com.inventarios.InventariosApplication",
+            "projectName": "com.inventarios-inventarios-api-spring-boot"
+        },
+        {
+            "type": "java",
+            "name": "VentaApiSpringBootApplication",
+            "request": "launch",
+            "mainClass": "com.ventas.VentaApiSpringBootApplication",
+            "projectName": "com.ventas-ventas-api-spring-boot"
+        },
+        {
+            "type": "java",
             "name": "ProductosApiSpringBootApplication",
             "request": "launch",
             "mainClass": "com.productos.ProductosApiSpringBootApplication"

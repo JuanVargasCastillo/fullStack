@@ -34,7 +34,7 @@ public class EnviosProxyController {
                                             @RequestHeader HttpHeaders headers) {
 
         String originalPath = request.getRequestURI().replace("/api/proxy/envios", "");
-        String targetUrl = "http://localhost:8089/api/envios" + originalPath;
+        String targetUrl = "http://localhost:8085/api/envios" + originalPath;
         HttpMethod method = HttpMethod.valueOf(request.getMethod());
 
         // Validar DELETE solo si no es admin
